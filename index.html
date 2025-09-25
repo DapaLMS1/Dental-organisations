@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F2F2;
+        }
+        .accordion-item {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1rem;
+        }
+        .accordion-header {
+            background-color: #532A8C;
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-content {
+            background-color: #C3ACE8;
+            color: #532A8C;
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .accordion-content.expanded {
+            background-color: white; /* Changed from #C3ACE8 */
+            padding: 1rem 1.5rem;
+            max-height: 200px; /* Adjust based on content size */
+        }
+        .accordion-content p {
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .chevron {
+            transition: transform 0.3s ease-in-out;
+        }
+        .chevron.rotated {
+            transform: rotate(180deg);
+        }
+    </style>
+
+
+
+    <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg p-6 md:p-10">
+
+        <div id="accordion-container" class="space-y-4">
+            
+            <!-- Item 1: The Dental Board of Australia -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer rounded-t-lg">
+                    <span>The Dental Board of Australia</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Registers dental practitioners and students, develops professional standards and guidelines, and handles notifications and complaints.</p>
+                </div>
+            </div>
+
+            <!-- Item 2: AHPRA -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer">
+                    <span>The Australian Health Practitioner Regulation Agency (AHPRA)</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Responsible for the National Registration and Accreditation Scheme for over 530,000 health practitioners in Australia, including dentists, oral health therapists, and dental hygienists.</p>
+                </div>
+            </div>
+
+            <!-- Item 3: ADA -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer">
+                    <span>The Australian Dental Association Inc. (ADA)</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>A voluntary membership association for dentists that promotes oral and general health, and supports its members in providing quality care.</p>
+                </div>
+            </div>
+            
+            <!-- Item 4: DAPA -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer">
+                    <span>The Dental Assistants Professional Association Inc. (DAPA)</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>The peak national body representing dental assistants. It advocates for mandatory training and registration, promotes dental assisting as a career, and offers nationally recognized training courses.</p>
+                </div>
+            </div>
+
+            <!-- Item 5: DHAA -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer">
+                    <span>The Dental Hygienists Association of Australia (DHAA)</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Represents dental hygienists, therapists, and oral health therapists, and supports the development of these professions.</p>
+                </div>
+            </div>
+
+            <!-- Item 6: ADPA -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer">
+                    <span>Australian Dental Prosthetists Association (ADPA)</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>The peak body for dental prosthetists and their patients.</p>
+                </div>
+            </div>
+
+            <!-- Item 7: ADOHTA -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center cursor-pointer">
+                    <span>The Australian Dental and Oral Health Therapists’ Association (ADOHTA)</span>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                    <p>The national body for dental and oral health therapists.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const accordionItem = header.parentElement;
+                    const content = accordionItem.querySelector('.accordion-content');
+                    const chevron = header.querySelector('.chevron');
+
+                    // Close all other open accordion items
+                    document.querySelectorAll('.accordion-item').forEach(item => {
+                        if (item !== accordionItem) {
+                            item.querySelector('.accordion-content').classList.remove('expanded');
+                            item.querySelector('.accordion-header .chevron').classList.remove('rotated');
+                        }
+                    });
+
+                    // Toggle the clicked accordion item
+                    content.classList.toggle('expanded');
+                    chevron.classList.toggle('rotated');
+                });
+            });
+        });
+    </script>
+
+
+</html>
