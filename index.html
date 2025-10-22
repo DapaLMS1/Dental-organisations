@@ -1,167 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-au">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {--card-h: 300px;}
+    body{margin:0;background:#e9e9e9}
+    .doa-wrap {font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #F2F2F2; padding: 1rem; border-radius: 16px; max-width: 1100px; margin: 24px auto;}
+    h2 {color: #532A8C; margin-bottom: 0.75rem;}
+    .grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.6rem;}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F2F2F2;
-        }
-        .accordion-item {
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            margin-bottom: 1rem;
-        }
-        .accordion-header {
-            background-color: #532A8C;
-            color: white;
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .accordion-content {
-            background-color: #C3ACE8;
-            color: #532A8C;
-            padding: 0 1.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-        }
-        .accordion-content.expanded {
-            background-color: white; /* Changed from #C3ACE8 */
-            padding: 1rem 1.5rem;
-            max-height: 200px; /* Adjust based on content size */
-        }
-        .accordion-content p {
-            font-weight: 500;
-            line-height: 1.5;
-        }
-        .chevron {
-            transition: transform 0.3s ease-in-out;
-        }
-        .chevron.rotated {
-            transform: rotate(180deg);
-        }
-    </style>
+    .flip {perspective: 1200px; height: var(--card-h); transition: transform 0.3s ease, box-shadow 0.3s ease;}
+    .flip:hover {transform: translateY(-4px); box-shadow: 0 6px 16px rgba(83,42,140,0.25);}
 
+    .flip-inner {position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.8,.2,1); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08);}
+    .flip-front, .flip-back {position: absolute; inset: 0; backface-visibility: hidden; border-radius: 12px; border: 1px solid #E6E6E6; padding: 1rem; display: grid; align-content: start; gap: .4rem; overflow: hidden; opacity: 1; transition: opacity .35s ease;}
+    .flip-front {background: #fff;}
+    .flip-back {background: #C3ACE8; color: #130a22; transform: rotateY(180deg); opacity: 0;}
 
+    .toggle {position: absolute; opacity: 0;}
+    .flip .cta {position: absolute; right: .6rem; bottom: .5rem; font-size: 0.9rem; color: #532A8C; font-weight: 600; cursor: pointer;}
+    .toggle:checked ~ .flip-inner {transform: rotateY(180deg);} 
+    .toggle:checked ~ .flip-inner .flip-back {opacity: 1;} 
+    .toggle:checked ~ .flip-inner .flip-front {opacity: 0;}
 
-    <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg p-6 md:p-10">
+    .flip h3 {font-size: 1.2rem; margin-bottom: .25rem; color: #532A8C; line-height: 1.2;}
+    .summary {font-size: 1rem; line-height: 1.45; margin: 0; color: #333;}
 
-        <div id="accordion-container" class="space-y-4">
-            
-            <!-- Item 1: The Dental Board of Australia -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer rounded-t-lg">
-                    <span>The Dental Board of Australia</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Registers dental practitioners and students, develops professional standards and guidelines, and handles notifications and complaints.</p>
-                </div>
-            </div>
+    .tag {font-size: 0.75rem; background: #7ABF49; color: #ffffff; border-radius: 999px; padding: 0.2rem 0.6rem; font-weight: 600;}
 
-            <!-- Item 2: AHPRA -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer">
-                    <span>The Australian Health Practitioner Regulation Agency (AHPRA)</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Responsible for the National Registration and Accreditation Scheme for over 530,000 health practitioners in Australia, including dentists, oral health therapists, and dental hygienists.</p>
-                </div>
-            </div>
+    .why-box {padding: 0.8rem 1rem; border-radius: 10px; background: #96BF78; color: #ffffff; font-size: 0.95rem; line-height: 1.5; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); opacity: 0; transition: opacity 0.5s ease-in-out;}
+    .toggle:checked ~ .flip-inner .flip-back .why-box {opacity: 1;}
+  </style>
+</head>
+<body>
+<section class="doa-wrap" aria-labelledby="doa-title">
+  <h2 id="doa-title">Dental Organisations in Australia — Final Flip Card Design</h2>
 
-            <!-- Item 3: ADA -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer">
-                    <span>The Australian Dental Association Inc. (ADA)</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>A voluntary membership association for dentists that promotes oral and general health, and supports its members in providing quality care.</p>
-                </div>
-            </div>
-            
-            <!-- Item 4: DAPA -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer">
-                    <span>The Dental Assistants Professional Association Inc. (DAPA)</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>The peak national body representing dental assistants. It advocates for mandatory training and registration, promotes dental assisting as a career, and offers nationally recognized training courses.</p>
-                </div>
-            </div>
-
-            <!-- Item 5: DHAA -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer">
-                    <span>The Dental Hygienists Association of Australia (DHAA)</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Represents dental hygienists, therapists, and oral health therapists, and supports the development of these professions.</p>
-                </div>
-            </div>
-
-            <!-- Item 6: ADPA -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer">
-                    <span>Australian Dental Prosthetists Association (ADPA)</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>The peak body for dental prosthetists and their patients.</p>
-                </div>
-            </div>
-
-            <!-- Item 7: ADOHTA -->
-            <div class="accordion-item">
-                <div class="accordion-header flex justify-between items-center cursor-pointer">
-                    <span>The Australian Dental and Oral Health Therapists’ Association (ADOHTA)</span>
-                    <span class="chevron">&#9660;</span>
-                </div>
-                <div class="accordion-content">
-                    <p>The national body for dental and oral health therapists.</p>
-                </div>
-            </div>
-
+  <div class="grid">
+    <div class="flip">
+      <input class="toggle" type="checkbox" id="card1" />
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag">Regulator</span>
+          <h3>Dental Board of Australia (DBA)</h3>
+          <p class="summary">Sets professional standards and oversees notifications and complaints to protect the public.</p>
+          <label class="cta" for="card1">Flip</label>
         </div>
+        <div class="flip-back">
+          <div class="why-box">
+            <strong>Why this matters to you</strong>
+            <p>Your work supports the DBA’s standards, helping maintain patient safety and compliance.</p>
+          </div>
+          <label class="cta" for="card1">Flip back</label>
+        </div>
+      </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
+    <div class="flip">
+      <input class="toggle" type="checkbox" id="card2" />
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag">Government Agency</span>
+          <h3>Australian Health Practitioner Regulation Agency (Ahpra)</h3>
+          <p class="summary">Manages the national registration and accreditation scheme and supports the DBA to regulate dentistry.</p>
+          <label class="cta" for="card2">Flip</label>
+        </div>
+        <div class="flip-back">
+          <div class="why-box">
+            <strong>Why this matters to you</strong>
+            <p>Ahpra handles registrations for the clinicians you assist. Your records and processes reflect Ahpra and DBA expectations for safe practice.</p>
+          </div>
+          <label class="cta" for="card2">Flip back</label>
+        </div>
+      </div>
+    </div>
 
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const accordionItem = header.parentElement;
-                    const content = accordionItem.querySelector('.accordion-content');
-                    const chevron = header.querySelector('.chevron');
+    <div class="flip">
+      <input class="toggle" type="checkbox" id="card3" />
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag">Professional Association</span>
+          <h3>Australian Dental Association (ADA)</h3>
+          <p class="summary">The ADA is the peak body for dentists, offering resources, advocacy, and continuing education.</p>
+          <label class="cta" for="card3">Flip</label>
+        </div>
+        <div class="flip-back">
+          <div class="why-box">
+            <strong>Why this matters to you</strong>
+            <p>ADA guidelines often shape your clinic’s procedures — from infection control to patient communication.</p>
+          </div>
+          <label class="cta" for="card3">Flip back</label>
+        </div>
+      </div>
+    </div>
 
-                    // Close all other open accordion items
-                    document.querySelectorAll('.accordion-item').forEach(item => {
-                        if (item !== accordionItem) {
-                            item.querySelector('.accordion-content').classList.remove('expanded');
-                            item.querySelector('.accordion-header .chevron').classList.remove('rotated');
-                        }
-                    });
+    <div class="flip">
+      <input class="toggle" type="checkbox" id="card4" />
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag">Professional Association</span>
+          <h3>Dental Assistants Professional Association (DAPA)</h3>
+          <p class="summary">DAPA supports dental assistants through training, advocacy, and career development opportunities.</p>
+          <label class="cta" for="card4">Flip</label>
+        </div>
+        <div class="flip-back">
+          <div class="why-box">
+            <strong>Why this matters to you</strong>
+            <p>DAPA provides guidance and CPD opportunities directly aligned to your daily work in dental assisting.</p>
+          </div>
+          <label class="cta" for="card4">Flip back</label>
+        </div>
+      </div>
+    </div>
 
-                    // Toggle the clicked accordion item
-                    content.classList.toggle('expanded');
-                    chevron.classList.toggle('rotated');
-                });
-            });
-        });
-    </script>
+    <div class="flip">
+      <input class="toggle" type="checkbox" id="card5" />
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag">Professional Association</span>
+          <h3>Australian Dental Prosthetists Association (ADPA)</h3>
+          <p class="summary">ADPA represents dental prosthetists, advocating for quality, safety, and patient access to services.</p>
+          <label class="cta" for="card5">Flip</label>
+        </div>
+        <div class="flip-back">
+          <div class="why-box">
+            <strong>Why this matters to you</strong>
+            <p>You may assist prosthetists with impressions, lab coordination, or patient communication—ADPA sets relevant standards.</p>
+          </div>
+          <label class="cta" for="card5">Flip back</label>
+        </div>
+      </div>
+    </div>
 
-
+    <div class="flip">
+      <input class="toggle" type="checkbox" id="card6" />
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="tag">Professional Associations</span>
+          <h3>DHAA & ADOHTA → Oral Health Association of Australia</h3>
+          <p class="summary">The merged body for hygienists and oral health therapists, representing the broader oral health workforce.</p>
+          <label class="cta" for="card6">Flip</label>
+        </div>
+        <div class="flip-back">
+          <div class="why-box">
+            <strong>Why this matters to you</strong>
+            <p>If your clinic employs hygienists or therapists, their standards and CPD activities influence your role and patient care coordination.</p>
+          </div>
+          <label class="cta" for="card6">Flip back</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
 </html>
